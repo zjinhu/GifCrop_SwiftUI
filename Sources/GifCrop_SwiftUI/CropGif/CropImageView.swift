@@ -24,7 +24,7 @@ struct CropImageView: View {
     //记录上一次移动的位置
     @State var preOffsetPosition: CGSize = .zero
     //裁剪框距离屏幕的边距
-    let cropPadding: CGFloat = 15
+    let cropPadding: CGFloat = 20
     
     @State private var rangeImages: [UIImage] = []
     //裁剪框宽度
@@ -174,7 +174,6 @@ struct CropImageView: View {
                     }
                 )
         )
-        .ignoresSafeArea()
         .overlay(alignment: .bottom){
             VStack{
                 Button{
@@ -253,9 +252,12 @@ struct CropImageView: View {
                     }
                 }
                 .foregroundColor(.white)
-                .padding(20)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
             }
+            .padding(.bottom, 20)
         }
+        .ignoresSafeArea()
         .onAppear(perform: fixCropImage)
         
     }
