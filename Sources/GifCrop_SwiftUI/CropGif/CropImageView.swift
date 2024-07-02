@@ -8,20 +8,13 @@
 import SwiftUI
 import BrickKit
 import Combine
-
+import UIKit
 struct CropImageView: View {
     @Environment(\.dismiss) var dismiss
-    //裁剪完成之后的回调
-    let callback:(_ cropImages: [UIImage]) -> Void
-    //当前图片
-    let inputImages: [UIImage]
-    @State private var currentImage: UIImage?
-    let imageDuration: TimeInterval
+
     @State private var isActive = true
-    @State private var counter = 0
-    @State private var timer: Publishers.Autoconnect<Timer.TimerPublisher>
-    @State var range: ClosedRange<Int>
-    @State var rangeImages: [UIImage] = []
+    @State private var counter: Int = 0
+    @State private var currentIndex: Int = 0
     //正在缩放比例
     @State var zoomingAmount: CGFloat = 0
     //缩放比例
@@ -32,33 +25,44 @@ struct CropImageView: View {
     @State var preOffsetPosition: CGSize = .zero
     //裁剪框距离屏幕的边距
     let cropPadding: CGFloat = 15
+    
+    @State private var rangeImages: [UIImage] = []
     //裁剪框宽度
     let cropWidth: CGFloat
     //裁剪框高度
     let cropHeight: CGFloat
     //裁剪宽高比
     let cropWHRate: Float
-    //当前视图区域的尺寸
-    let screenWidth = UIScreen.main.bounds.width
-    let screenHeight = UIScreen.main.bounds.height
+    //裁剪完成之后的回调
+    let callback: (_ cropImages: [UIImage?]) -> Void
+    let imageDuration: TimeInterval
+    @State private var timer: Publishers.Autoconnect<Timer.TimerPublisher>
+    @State private var range: ClosedRange<Int>
+    //当前图片
+    let inputImages: [UIImage]
+    @State private var currentImage: UIImage?
     
     init(cropRate: CGSize = .init(width: 1, height: 1),
          inputImages: [UIImage],
          imageDuration: TimeInterval = 0,
-         callback: @escaping (_ cropImages: [UIImage]) -> Void) {
+         callback: @escaping (_ cropImages: [UIImage?]) -> Void) {
         
-        self.cropWHRate = Float(cropRate.width / cropRate.height)
         self.inputImages = inputImages
-        self.rangeImages = inputImages
-        self.currentImage = inputImages.first
         self.callback = callback
         self.imageDuration = imageDuration
-        self.timer = Timer.publish(every: imageDuration, on: .main, in: .common).autoconnect()
-        self.range = 0...inputImages.count-1
+        
+        if inputImages.isEmpty {
+            print("Error: inputImages is empty.")
+        }
+        cropWHRate = Float(cropRate.width / cropRate.height)
+        rangeImages = inputImages
+        currentImage = inputImages.first
+        timer = Timer.publish(every: imageDuration, on: .main, in: .common).autoconnect()
+        range = 0...(inputImages.count > 0 ? inputImages.count - 1 : 0)
         //裁剪框支持的最大宽度
-        let maxCropWidth = screenWidth - cropPadding * 2
+        let maxCropWidth = Screen.width - cropPadding * 2
         //裁剪框支持的最大高度
-        let maxCropHidth = screenHeight - cropPadding * 2
+        let maxCropHidth = Screen.height - cropPadding * 2
         //支持的裁剪框最大宽高比
         let maxCropRate = Float(maxCropWidth / maxCropHidth)
         if maxCropRate > cropWHRate{
@@ -126,6 +130,7 @@ struct CropImageView: View {
             if isActive {
                 counter = (counter + 1) % rangeImages.count
                 currentImage = rangeImages[counter]
+                currentIndex = counter + range.lowerBound
             }
         }
         .onChange(of: isActive) { newValue in
@@ -196,19 +201,13 @@ struct CropImageView: View {
                     HorizontalRangeSliderStyle(
                         track:
                             HorizontalRangeTrack(
-                                view: Color.clear.border(Color.white, width: 5) ,
+                                view: Color.clear.border(Color.white, width: 5),
                                 mask: RoundedRectangle(cornerRadius: 0)
                             )
                             .background(
-                                HStack(spacing: 0){
-                                    ForEach(0..<inputImages.count, id: \.self) { index in
-                                        Image(uiImage: inputImages[index])
-                                            .resizable()
-                                            .scaledToFill()
-                                            .width(Screen.width/CGFloat(inputImages.count))
-                                            .clipped()
-                                    }
-                                }
+                                TrimLineView(inputImages: inputImages,
+                                             counter: $currentIndex,
+                                             isActive: $isActive)
                             ),
                         lowerThumb: HalfCapsule()
                             .foregroundColor(.white)
@@ -265,23 +264,24 @@ struct CropImageView: View {
 extension CropImageView {
     
     func fixCropImage() {
+        guard let currentImage = currentImage else { return }
         //当前图片的尺寸
-        let inputImageWidth = currentImage?.size.width ?? 0
-        let inputImageHeight = currentImage?.size.height ?? 0
+        let inputImageWidth = currentImage.size.width
+        let inputImageHeight = currentImage.size.height
         // 当前图片的宽高比
         let inputImageWHRate: CGFloat = inputImageWidth / inputImageHeight
         //当前屏幕的宽高比
-        let screenWHRate: CGFloat = screenWidth / screenHeight
+        let screenWHRate: CGFloat = Screen.width / Screen.height
         //没有缩放状态下的显示宽与高
         var displayW1: CGFloat
         var displayH1: CGFloat
         if inputImageWHRate > screenWHRate {
             //图片的宽高比大于屏幕的宽高比,则没有放大缩小的状态下,显示的宽度为屏幕宽度
-            displayW1 = screenWidth
+            displayW1 = Screen.width
             displayH1 = displayW1 / inputImageWHRate
         } else {
             //图片的宽高比小于屏幕的宽高比,则没有放大缩小的状态下,显示的高度为屏幕的高度
-            displayH1 = screenHeight
+            displayH1 = Screen.height
             displayW1 = displayH1 * inputImageWHRate
         }
         //允许最小的缩小比例
@@ -314,20 +314,21 @@ extension CropImageView {
     }
     
     func onCropImage() {
+        guard let currentImage = currentImage else { return }
         //当前图片的尺寸
-        let inputImageWidth = currentImage?.size.width ?? 0
-        let inputImageHeight = currentImage?.size.height ?? 0
+        let inputImageWidth = currentImage.size.width
+        let inputImageHeight = currentImage.size.height
         // 当前图片的宽高比
         let inputImageWHRate: CGFloat = inputImageWidth / inputImageHeight
         //当前屏幕的宽高比
-        let screenWHRate: CGFloat = screenWidth / screenHeight
+        let screenWHRate: CGFloat = Screen.width / Screen.height
         //与实际尺寸相比,放大比例
         var displayZoomRate:CGFloat
         if inputImageWHRate > screenWHRate{
             //输入图片的宽高比大于屏幕的宽高比时
-            displayZoomRate = inputImageWidth / (screenWidth * zoomAmount)
+            displayZoomRate = inputImageWidth / (Screen.width * zoomAmount)
         }else{
-            displayZoomRate = inputImageHeight / (screenHeight * zoomAmount)
+            displayZoomRate = inputImageHeight / (Screen.height * zoomAmount)
         }
         //计算实际偏移像素
         let offsetWidthPX = cropWidth * displayZoomRate / 2 + currentOffsetPosition.width * displayZoomRate
@@ -339,7 +340,7 @@ extension CropImageView {
         let width = cropWidth * displayZoomRate
         let height = cropHeight * displayZoomRate
         
-        var cropImages = [UIImage]()
+        var cropImages = [UIImage?]()
         for image in rangeImages{
             let cropImage = crop(from: image,
                                  croppedTo: CGRect(x: CGFloat(Int(x)),
@@ -352,7 +353,7 @@ extension CropImageView {
         callback(cropImages)
     }
     
-    private func crop(from image: UIImage, croppedTo rect: CGRect) -> UIImage {
+    private func crop(from image: UIImage, croppedTo rect: CGRect) -> UIImage? {
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
         let drawRect = CGRect(x: -rect.origin.x,
@@ -366,29 +367,30 @@ extension CropImageView {
         image.draw(in: drawRect)
         let subImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return subImage!
+        return subImage
     }
 }
 
-#Preview {
-    CropImageView(cropRate: .init(width: 1, height: 1),
-                  inputImages : [UIImage(named: "1")!,
-                                 UIImage(named: "2")!,
-                                 UIImage(named: "3")!,
-                                 UIImage(named: "4")!,
-                                 UIImage(named: "5")!,
-                                 UIImage(named: "6")!,
-                                 UIImage(named: "7")!,
-                                 UIImage(named: "8")!,
-                                 UIImage(named: "9")!,
-                                 UIImage(named: "10")!,
-                                 UIImage(named: "11")!,
-                                 UIImage(named: "12")!,
-                                 UIImage(named: "13")!,
-                                 UIImage(named: "14")!,
-                                 UIImage(named: "15")!,
-                                 UIImage(named: "16")!],
-                  imageDuration: 0.1){ _ in
-        
-    }
-}
+//#Preview {
+//    CropImageView(cropRate: .init(width: 1, height: 1),
+//                  inputImages : [UIImage(named: "1")!,
+//                                 UIImage(named: "2")!,
+//                                 UIImage(named: "3")!,
+//                                 UIImage(named: "4")!,
+//                                 UIImage(named: "5")!,
+//                                 UIImage(named: "6")!,
+//                                 UIImage(named: "7")!,
+//                                 UIImage(named: "8")!,
+//                                 UIImage(named: "9")!,
+//                                 UIImage(named: "10")!,
+//                                 UIImage(named: "11")!,
+//                                 UIImage(named: "12")!,
+//                                 UIImage(named: "13")!,
+//                                 UIImage(named: "14")!,
+//                                 UIImage(named: "15")!,
+//                                 UIImage(named: "16")!,
+//                                 UIImage(named: "17")!],
+//                  imageDuration: 0.1) { cropImages in
+//        
+//    }
+//}

@@ -29,7 +29,7 @@ struct ContentView: View {
         }
         .padding()
         .cropGif(isAction: $isSheet, 
-                 gifData: GifTool.gifData(name: "3"),
+                 gifData: GifTool.gifData(name: "gif4"),
                  cropRate: .init(width: 16, height: 9)){ gif in
             gifData = gif
         }

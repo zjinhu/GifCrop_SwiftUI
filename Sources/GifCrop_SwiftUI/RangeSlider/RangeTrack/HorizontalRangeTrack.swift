@@ -36,6 +36,7 @@ public struct HorizontalRangeTrack<ValueView: View, MaskView: View>: View {
                     }
                     .frame(width: geometry.size.width, alignment: .leading)
                 )
+
         }
     }
 }
