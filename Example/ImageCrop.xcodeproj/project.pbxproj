@@ -138,9 +138,9 @@
 			isa = PBXGroup;
 			children = (
 				8CE88E8F2C3505D600765FC3 /* CropGIF.swift */,
-				8CE88E902C3505D600765FC3 /* CropImageView.swift */,
 				8CE88E912C3505D600765FC3 /* GifImage.swift */,
 				8CE88E922C3505D600765FC3 /* GifTool.swift */,
+				8CE88E902C3505D600765FC3 /* CropImageView.swift */,
 				8CE88E932C3505D600765FC3 /* TrimLineView.swift */,
 			);
 			path = CropGif;
