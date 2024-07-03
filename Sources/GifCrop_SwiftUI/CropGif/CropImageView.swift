@@ -11,7 +11,7 @@ import Combine
 import UIKit
 struct CropImageView: View {
     @Environment(\.dismiss) var dismiss
-
+    @State private var changeColor = false
     @State private var isActive = true
     @State private var counter: Int = 0
     @State private var currentIndex: Int = 0
@@ -44,7 +44,7 @@ struct CropImageView: View {
     
     init(cropRate: CGSize = .init(width: 1, height: 1),
          inputImages: [UIImage],
-         imageDuration: TimeInterval = 0,
+         imageDuration: TimeInterval = 0.1,
          callback: @escaping (_ cropImages: [UIImage?]) -> Void) {
         
         self.inputImages = inputImages
@@ -78,7 +78,12 @@ struct CropImageView: View {
     
     var body: some View {
         ZStack {
-            Color.black
+            
+            if changeColor{
+                Color.white
+            }else{
+                Color.black
+            }
             
             if let image = currentImage{
                 Image(uiImage: image)
@@ -193,7 +198,7 @@ struct CropImageView: View {
                 RangeSlider(range: $range,
                             in: 0...inputImages.count-1,
                             step: 1,
-                            distance: 2...inputImages.count-1)
+                            distance: 5...inputImages.count-1)
                 .cornerRadius(8)
                 .frame(height: 50)
                 .rangeSliderStyle(
@@ -256,6 +261,22 @@ struct CropImageView: View {
                 .padding(.vertical, 16)
             }
             .padding(.bottom, 20)
+        }
+        .overlay(alignment: .topTrailing) {
+            Button{
+                changeColor.toggle()
+            } label: {
+                if changeColor{
+                    Image(systemName: "circle.lefthalf.filled")
+                }else{
+                    Image(systemName: "circle.lefthalf.filled.inverse")
+                }
+            }
+            .rotationEffect(.degrees(30))
+            .foregroundColor(.white)
+            .frame(width: 50, height: 50)
+            .contentShape(Rectangle())
+            .padding(.top, 40)
         }
         .ignoresSafeArea()
         .onAppear(perform: fixCropImage)
@@ -373,26 +394,32 @@ extension CropImageView {
     }
 }
 
-//#Preview {
-//    CropImageView(cropRate: .init(width: 1, height: 1),
-//                  inputImages : [UIImage(named: "1")!,
-//                                 UIImage(named: "2")!,
-//                                 UIImage(named: "3")!,
-//                                 UIImage(named: "4")!,
-//                                 UIImage(named: "5")!,
-//                                 UIImage(named: "6")!,
-//                                 UIImage(named: "7")!,
-//                                 UIImage(named: "8")!,
-//                                 UIImage(named: "9")!,
-//                                 UIImage(named: "10")!,
-//                                 UIImage(named: "11")!,
-//                                 UIImage(named: "12")!,
-//                                 UIImage(named: "13")!,
-//                                 UIImage(named: "14")!,
-//                                 UIImage(named: "15")!,
-//                                 UIImage(named: "16")!,
-//                                 UIImage(named: "17")!],
-//                  imageDuration: 0.1) { cropImages in
-//        
-//    }
-//}
+#Preview {
+    CropImageView(cropRate: .init(width: 2, height: 2),
+                  inputImages :
+                    [
+                        UIImage(named: "1")!,
+                        UIImage(named: "2")!,
+                        UIImage(named: "3")!,
+                        UIImage(named: "4")!,
+                        UIImage(named: "5")!,
+                        UIImage(named: "6")!,
+                        UIImage(named: "7")!,
+                        UIImage(named: "8")!,
+                        UIImage(named: "9")!,
+                        UIImage(named: "10")!,
+                        UIImage(named: "11")!,
+                        UIImage(named: "12")!,
+                        UIImage(named: "13")!,
+                        UIImage(named: "14")!,
+                        UIImage(named: "15")!,
+                        UIImage(named: "16")!,
+                        UIImage(named: "17")!,
+                        UIImage(named: "18")!,
+                        UIImage(named: "19")!,
+                        UIImage(named: "20")!,
+                    ]
+    ) { cropImages in
+        
+    }
+}

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import GifCrop_SwiftUI
+//import GifCrop_SwiftUI
 import BrickKit
 struct ContentView: View {
 
@@ -30,7 +30,7 @@ struct ContentView: View {
         .padding()
         .cropGif(isAction: $isSheet, 
                  gifData: GifTool.gifData(name: "gif4"),
-                 cropRate: .init(width: 7, height: 9)){ gif in
+                 cropRate: .init(width: 16, height: 9)){ gif in
             gifData = gif
         }
  

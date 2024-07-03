@@ -33,6 +33,10 @@ struct TrimLineView: View {
                 }
             }
         }
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 8, style: .continuous)
+//            .strokeBorder(Color(hex: "222222"), lineWidth: 5)
+//        )
     }
 }
  
