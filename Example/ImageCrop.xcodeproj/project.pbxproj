@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,12 +12,9 @@
 		8C9127852C2AD1870010A7FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C9127842C2AD1870010A7FD /* Assets.xcassets */; };
 		8C9127882C2AD1870010A7FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C9127872C2AD1870010A7FD /* Preview Assets.xcassets */; };
 		8CBE8F282C2E663600E2FCDA /* gif4.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8CBE8F272C2E663600E2FCDA /* gif4.gif */; };
-		8CBE8F2F2C2E92A800E2FCDA /* BrickKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8CBE8F2E2C2E92A800E2FCDA /* BrickKit */; };
 		8CBE8F322C2EADDE00E2FCDA /* gif3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8CBE8F312C2EADDE00E2FCDA /* gif3.gif */; };
 		8CE88EA92C3505D600765FC3 /* CropGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88E8F2C3505D600765FC3 /* CropGIF.swift */; };
 		8CE88EAA2C3505D600765FC3 /* CropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88E902C3505D600765FC3 /* CropImageView.swift */; };
-		8CE88EAB2C3505D600765FC3 /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88E912C3505D600765FC3 /* GifImage.swift */; };
-		8CE88EAC2C3505D600765FC3 /* GifTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88E922C3505D600765FC3 /* GifTool.swift */; };
 		8CE88EAD2C3505D600765FC3 /* TrimLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88E932C3505D600765FC3 /* TrimLineView.swift */; };
 		8CE88EAE2C3505D600765FC3 /* DefaultHorizontalValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88E952C3505D600765FC3 /* DefaultHorizontalValueView.swift */; };
 		8CE88EAF2C3505D600765FC3 /* EnvironmentValues+RangeTrackConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88E962C3505D600765FC3 /* EnvironmentValues+RangeTrackConfiguration.swift */; };
@@ -35,6 +32,7 @@
 		8CE88EBB2C3505D600765FC3 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88EA42C3505D600765FC3 /* RangeSlider.swift */; };
 		8CE88EBC2C3505D600765FC3 /* RangeSliderOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88EA52C3505D600765FC3 /* RangeSliderOptions.swift */; };
 		8CE88EBD2C3505D600765FC3 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE88EA72C3505D600765FC3 /* View+.swift */; };
+		8CE88EF22C35307900765FC3 /* BrickKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8CE88EF12C35307900765FC3 /* BrickKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,8 +45,6 @@
 		8CBE8F312C2EADDE00E2FCDA /* gif3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif3.gif; sourceTree = "<group>"; };
 		8CE88E8F2C3505D600765FC3 /* CropGIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropGIF.swift; sourceTree = "<group>"; };
 		8CE88E902C3505D600765FC3 /* CropImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropImageView.swift; sourceTree = "<group>"; };
-		8CE88E912C3505D600765FC3 /* GifImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
-		8CE88E922C3505D600765FC3 /* GifTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifTool.swift; sourceTree = "<group>"; };
 		8CE88E932C3505D600765FC3 /* TrimLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrimLineView.swift; sourceTree = "<group>"; };
 		8CE88E952C3505D600765FC3 /* DefaultHorizontalValueView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultHorizontalValueView.swift; sourceTree = "<group>"; };
 		8CE88E962C3505D600765FC3 /* EnvironmentValues+RangeTrackConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+RangeTrackConfiguration.swift"; sourceTree = "<group>"; };
@@ -73,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8CBE8F2F2C2E92A800E2FCDA /* BrickKit in Frameworks */,
+				8CE88EF22C35307900765FC3 /* BrickKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				8CE88E8F2C3505D600765FC3 /* CropGIF.swift */,
-				8CE88E912C3505D600765FC3 /* GifImage.swift */,
-				8CE88E922C3505D600765FC3 /* GifTool.swift */,
 				8CE88E902C3505D600765FC3 /* CropImageView.swift */,
 				8CE88E932C3505D600765FC3 /* TrimLineView.swift */,
 			);
@@ -212,7 +206,7 @@
 			);
 			name = ImageCrop;
 			packageProductDependencies = (
-				8CBE8F2E2C2E92A800E2FCDA /* BrickKit */,
+				8CE88EF12C35307900765FC3 /* BrickKit */,
 			);
 			productName = ImageCrop;
 			productReference = 8C91277D2C2AD1860010A7FD /* ImageCrop.app */;
@@ -243,7 +237,7 @@
 			);
 			mainGroup = 8C9127742C2AD1860010A7FD;
 			packageReferences = (
-				8CBE8F2D2C2E92A800E2FCDA /* XCRemoteSwiftPackageReference "Brick_SwiftUI" */,
+				8CE88EF02C35307900765FC3 /* XCLocalSwiftPackageReference "../../Brick_SwiftUI" */,
 			);
 			productRefGroup = 8C91277E2C2AD1860010A7FD /* Products */;
 			projectDirPath = "";
@@ -281,14 +275,12 @@
 				8C9127832C2AD1860010A7FD /* ContentView.swift in Sources */,
 				8CE88EB32C3505D600765FC3 /* AnyRangeSliderStyle.swift in Sources */,
 				8CE88EB82C3505D600765FC3 /* LinearValueMath.swift in Sources */,
-				8CE88EAC2C3505D600765FC3 /* GifTool.swift in Sources */,
 				8C9127812C2AD1860010A7FD /* ImageCropApp.swift in Sources */,
 				8CE88EB12C3505D600765FC3 /* HorizontalRangeTrack.swift in Sources */,
 				8CE88EAE2C3505D600765FC3 /* DefaultHorizontalValueView.swift in Sources */,
 				8CE88EBA2C3505D600765FC3 /* RangeSliderStyleConfiguration.swift in Sources */,
 				8CE88EA92C3505D600765FC3 /* CropGIF.swift in Sources */,
 				8CE88EB52C3505D600765FC3 /* EnvironmentValues+RangeSliderStyle.swift in Sources */,
-				8CE88EAB2C3505D600765FC3 /* GifImage.swift in Sources */,
 				8CE88EB62C3505D600765FC3 /* HorizontalRangeSliderStyle.swift in Sources */,
 				8CE88EAD2C3505D600765FC3 /* TrimLineView.swift in Sources */,
 				8CE88EB22C3505D600765FC3 /* RangeTrackConfiguration.swift in Sources */,
@@ -506,21 +498,16 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		8CBE8F2D2C2E92A800E2FCDA /* XCRemoteSwiftPackageReference "Brick_SwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zjinhu/Brick_SwiftUI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.8;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		8CE88EF02C35307900765FC3 /* XCLocalSwiftPackageReference "../../Brick_SwiftUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Brick_SwiftUI;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8CBE8F2E2C2E92A800E2FCDA /* BrickKit */ = {
+		8CE88EF12C35307900765FC3 /* BrickKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8CBE8F2D2C2E92A800E2FCDA /* XCRemoteSwiftPackageReference "Brick_SwiftUI" */;
 			productName = BrickKit;
 		};
 /* End XCSwiftPackageProductDependency section */

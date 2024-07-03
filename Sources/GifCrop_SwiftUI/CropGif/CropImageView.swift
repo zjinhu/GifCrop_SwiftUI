@@ -54,6 +54,7 @@ struct CropImageView: View {
         if inputImages.isEmpty {
             print("Error: inputImages is empty.")
         }
+        
         cropWHRate = Float(cropRate.width / cropRate.height)
         rangeImages = inputImages
         currentImage = inputImages.first
@@ -234,7 +235,6 @@ struct CropImageView: View {
                 )
                 .padding(.horizontal, 16)
                 .onChange(of: range) { newValue in
-                    print("\(range)")
                     isActive = false
                     rangeImages = Array(inputImages[range])
                 }

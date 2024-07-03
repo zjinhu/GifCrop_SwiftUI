@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BrickKit
 
 class CropGifModel: ObservableObject{
     @Published var isPresented: Bool = false

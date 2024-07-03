@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-    ///目前支持锁屏小组件两种比例以及横屏比例，不支持竖屏比例（显示超过范围）
+    ///不支持竖屏大比例（显示超过范围）
     public func cropGif(isAction: Binding<Bool>,
                         gifData: Data?,
                         cropRate: CGSize = .init(width: 1, height: 1),
